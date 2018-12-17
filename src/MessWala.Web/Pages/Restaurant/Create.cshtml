@@ -1,0 +1,19 @@
+@page "{handler?}"
+@model MessWala.Web.Pages.Restaurant.CreateModel
+<h1>
+    This is a sample
+</h1>
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="CreateRestaurant.Name" class="control-label"></label>
+        <input asp-for="CreateRestaurant.Name" class="form-control" />
+        <span asp-validation-for="CreateRestaurant.Name" class="text-danger"></span>
+    </div>
+    @*<div class="form-group">
+        <label asp-for="rstDto.Location" class="control-label"></label>
+        <textarea asp-for="rstDto.Location" class="form-control"></textarea>
+        <span asp-validation-for="rstDto.Location" class="text-danger"></span>
+    </div>*@
+    <button type="submit" class="btn btn-outline-primary">Create</button>
+</form>

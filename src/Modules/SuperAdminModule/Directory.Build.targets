@@ -1,0 +1,11 @@
+<Project>
+
+  <!--
+    Required for the samples in this repo only.
+    Normally, you should replace this with a PackageReference to McMaster.NETCore.Plugins.Sdk.
+  -->
+  <ItemGroup>
+    <PackageReference Include="McMaster.NETCore.Plugins.Sdk" Version="0.2.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,310 @@
+@page
+@using MessWala.Web.Pages.Restaurant
+@model UpsertPlanModel
+@{
+     ViewData["Title"] = "UpsertPlan"; 
+}
+
+<div class="ui large header">Add / Update Plan</div>
+<div class="ui divider"></div>
+<div class="ui grid">
+   <div class="one wide column"></div>
+   <div class="ten wide column">
+      <form id="addPlanForm" method="Post" class="ui form">
+         @Html.HiddenFor(m=>m.PlanDto.JsonArray) 
+         @Html.HiddenFor(m=>m.PlanDto.PlanId)
+         @Html.HiddenFor(m=>m.PlanDto.LstPlanItemsDto)
+         <div class="required fields">
+            <div class="two wide field">
+               <label asp-for="@Model.PlanDto.Name"></label>
+            </div>
+            <div class="five wide field">
+               <input type="text" asp-for="@Model.PlanDto.Name" />
+            </div>
+         </div>
+         <div class="required fields">
+            <div class="two wide field">
+               <label asp-for="@Model.PlanDto.RestaurantId"></label>
+            </div>
+            <div class="five wide field">
+               <select asp-for="@Model.PlanDto.RestaurantId" asp-items="@(new SelectList(Model.PlanDto.LstRestaurantsDto,"Id","Name"))">
+               <option>Please Select</option>
+               </select>
+            </div>
+         </div>
+         <div class="required fields">
+            <div class="two wide field">
+               <label asp-for="@Model.PlanDto.CategoryId"></label>
+            </div>
+            <div class="five wide field">
+               <select asp-for="@Model.PlanDto.CategoryId" asp-items="@(new SelectList(Model.PlanDto.LstCategoriesDto,"Id","Name"))">
+               <option>Please Select</option>
+               </select>
+            </div>
+         </div>
+         <div class="required fields">
+            <div class="two wide field">
+               <label asp-for="@Model.PlanDto.PlanMasterId"></label>
+            </div>
+            <div class="five wide field">
+               <select asp-for="@Model.PlanDto.PlanMasterId" asp-items="@(new SelectList(Model.PlanDto.LstPlanMastersDto,"Id","Name"))">
+               <option>Please Select</option>
+               </select>
+            </div>
+         </div>
+         <div class="fields">
+            <div class="two wide field">
+               <label asp-for="@Model.PlanDto.Cost"></label>
+            </div>
+            <div class="five wide field">
+               <input type="text" asp-for="@Model.PlanDto.Cost" />
+            </div>
+         </div>
+         <div class="fields">
+            <div class="two wide field">
+               <label asp-for="@Model.PlanDto.Description"></label>
+            </div>
+            <div class="seven wide field">
+               <textarea rows="3" cols="50" type="text" asp-for="@Model.PlanDto.Description"></textarea>
+            </div>
+         </div>
+         <div class="fields">
+            <div class="two wide field">
+               <label>Select Item && Enter Max Items</label>
+            </div>
+            <div class="nine wide field dvDynamicContent">
+            </div>
+            <div class="one wide field">
+               <p>
+                  <a id="addDynamicTemplate" style="cursor:pointer">
+                  <i class="plus icon"></i>
+                  </a>
+               </p>
+            </div>
+         </div>
+         <div class="fields">
+            <div class="two wide field">
+               <button type="button" class="ui primary button" id="btnSubmitForm">Save</button>
+            </div>
+            <div class="three wide field">
+               <a asp-page="/restaurant/plans" class="ui button">Cancel</a>
+            </div>
+         </div>
+      </form>
+   </div>
+   <div class="five wide column">
+      <div id="dynamicData"></div>
+   </div>
+</div>
+<div id="testDv"></div>
+
+@section Scripts {
+
+<script type="text/javascript">
+  var finalData = [];
+  var planItemDetails = [];
+
+  $(document).ready(function() {
+    
+    $.getJSON("/restaurant/upsertplan?handler=ListOfRestaurantItems", function(data) {
+      planItemDetails = data;
+      var planId = $("#PlanDto_PlanId").val();
+      if (Number(planId) > 0) {
+        $.getJSON("/restaurant/UpsertPlan?handler=ListOfPlanItems&planId=" + planId, function(
+          data
+        ) {
+          $.each(data, function(index, value) {
+            if (index == 0) addDynamicTemplate(true, value);
+            else addDynamicTemplate(false, value);
+          });
+        });
+      } else {
+        addDynamicTemplate(true, null);
+      }
+    });
+
+    $("#btnSubmitForm").click(function(event) {
+      debugger
+      let isFormValid = true;
+      var lstPlanMasters = [];
+      $.each(finalData, function(index, value) {
+        var defaultIds = [];
+        $.each(
+          $("#" + value.DisplayId).find('input[name="itemcheckbox"]:checked'),
+          function(index2, row) {
+            defaultIds.push(row.id);
+          }
+        );
+        var planMaster = {
+          SelectedItemIds: $("." + value.DdrId).multipleSelect("getSelects"),
+          DefaultItemIds: defaultIds,
+          MaxItemsToSelect: $("#" + value.TxtId).val(),
+          IsEdit:value.IsEdit
+        };
+        
+        if(planMaster.IsEdit)
+          planMaster['Groupid']=value.DisplayId;
+        if (Number(planMaster.MaxItemsToSelect) > 0) {
+          if (planMaster.MaxItemsToSelect != planMaster.DefaultItemIds.length) {
+            alert("Please provide default items as per max no of items you are supplying.");
+            isFormValid = false;
+            return false;
+          }
+        } else {
+          alert("Please enter valid max items.");
+          isFormValid = false;
+          return false;
+        }
+        lstPlanMasters.push(planMaster);
+      });
+      debugger
+      if (isFormValid) {
+        $("#PlanDto_JsonArray").val(JSON.stringify(lstPlanMasters));
+        $("#addPlanForm").submit();
+      }
+    });
+
+    $("#addDynamicTemplate").click(function() {
+      addDynamicTemplate(false, null);
+    });
+  });
+
+  function addDynamicTemplate(isDefault, planItem) {
+    debugger
+    var dynamicId ="demo_" + Math.round(new Date().getTime() + Math.random() * 10.52);
+    var dynamicDdrId ="Ddr_" + Math.round(new Date().getTime() + Math.random() * 1.64);
+    var dynamicTxtId ="Txt_" + Math.round(new Date().getTime() + Math.random() * 5.68);
+    var displayId="Dsp_" + Math.round(new Date().getTime() + Math.random() * 6.05);
+    var dynamicDisplayId =(planItem!=null && planItem!=undefined)?planItem.groupId:displayId;
+    var dynamicRemoveId ="Rmv_" + Math.round(new Date().getTime() + Math.random() * 0.85);
+    this.finalData.push({
+      Id: dynamicId,
+      TxtId: dynamicTxtId,
+      DdrId: dynamicDdrId,
+      DisplayId: dynamicDisplayId,
+      JsonItems: [],
+      IsEdit:(planItem!=null && planItem!=undefined)?true:false
+    });
+
+    $(".dvDynamicContent").append(
+      "<div class='fields' id="+dynamicId+"><div class='nine wide field'><div class=" + dynamicId + "></div></div></div>"
+    );
+    $("." + dynamicId).append(
+      "<select class='form-control " + dynamicDdrId + "' multiple='multiple'>"
+    );
+    $.each(planItemDetails, function(index, value) {
+      $("." + dynamicDdrId).append(
+        "<option value=" + value.id + ">" + value.name + "</option>"
+      );
+      if (planItemDetails.length - 1 == index)
+        $("." + dynamicId).append("</select>");
+    });
+
+    if (isDefault) {
+      $("#"+dynamicId).append(
+        "<div class='two wide field'><input type='text' class='form-control' id=" +
+          dynamicTxtId +
+          " style='width:50px'/></div>"
+      );
+    } else {
+      $("#"+dynamicId).append(
+        "<div class='two wide field'><input type='text' class='form-control' id=" +
+          dynamicTxtId +
+          " style='width:50px'/></div><div class='one wide field'><a id=" +
+          dynamicRemoveId +
+          " style='cursor:pointer'><i class='minus icon'></i></a></div>"
+      );
+
+      $("#" + dynamicRemoveId).on("click", function() {
+        removeLineItem(dynamicId, dynamicRemoveId);
+      });
+    }
+
+    $("#dynamicData").append(
+      "<div id=" + dynamicDisplayId + "></div></br></br>"
+    );
+
+    addDynamicDropDown(dynamicId, planItem);
+  }
+
+  function addDynamicDropDown(dynamicId, planItem) {
+    debugger
+    var item = this.finalData.filter(m => m.Id == dynamicId)[0];
+    $("." + item.DdrId).multipleSelect({
+      placeholder: "Select Items",
+      selectAll: false,
+      filter: true,
+      animate: "slide",
+      onClick: function(event) {
+        changeDynamicData(event, dynamicId);
+      }
+    });
+    if (planItem != null) {
+      $("." + item.DdrId).multipleSelect("setSelects",planItem.selectedItemIds);
+      $("#" + item.TxtId).val(planItem.maxItemsToSelect);
+
+      var filteredPlanItems = this.planItemDetails.filter(m => planItem.selectedItemIds.indexOf(m.id) > -1);
+
+      $.each(filteredPlanItems, function(index, value) {
+        var isChecked =planItem.defaultItemIds.filter(m => m == value.id).length > 0? "checked": "";
+        $("#" + item.DisplayId).append(
+          "<input type='checkbox' name='itemcheckbox' "+ isChecked +" id=" + value.id +" /> " +value.name +"</br>"
+        );
+
+        $.each(finalData.filter(m => m.Id == item.Id), function(index2, row) {
+          row.JsonItems.push({
+            id: value.id,
+            CheckBox:"<input type='checkbox' id="+ value.id +" name='itemcheckbox' />",
+            Text: value.name
+          });
+        });
+      });
+    }
+  }
+
+  function changeDynamicData(event, dynamicId) {
+    $.each(this.finalData.filter(m => m.Id == dynamicId), function(index,value) {
+      if (event.checked == true) {
+        value.JsonItems.push({
+          id: event.value,
+          CheckBox:"<input type='checkbox' id=" +event.value +" name='itemcheckbox' />",
+          Text: event.label
+        });
+      } else {
+        value.JsonItems = value.JsonItems.filter(m => m.id != event.value);
+      }
+    });
+
+    var itemsData = this.finalData.filter(m => m.Id == dynamicId)[0];
+    $("#" + itemsData.DisplayId).html("");
+    $.each(itemsData.JsonItems, function(index, value) {
+      $("#" + itemsData.DisplayId).append(value.CheckBox + " " + value.Text + "</br>");
+    });
+  }
+
+  function removeLineItem(dynamicId, dynamicRemoveId) {
+    var itemData = this.finalData.filter(m => m.Id == dynamicId)[0];
+    this.finalData = this.finalData.filter(m => m.Id != dynamicId);
+    $("." + itemData.Id).remove();
+    $("#" + itemData.TxtId).closest("div").remove();
+    $("#" + itemData.DisplayId).remove();
+    $("#" + dynamicRemoveId).remove();
+    $("#"+dynamicId).remove();
+  }
+</script>
+}
+
+<style type="text/css">
+  .ms-choice,.ms-parent {
+    width: 100% !important;
+  }
+  .ms-drop ul li label input[type="checkbox"]{
+    margin-left:0px !important;
+  }
+  .ms-drop {
+    width: 100% !important;
+  }
+  .ui.form input[type="checkbox"] {
+    vertical-align: middle !important;
+  }
+</style>

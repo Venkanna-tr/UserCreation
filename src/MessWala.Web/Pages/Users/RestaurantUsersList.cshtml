@@ -1,0 +1,85 @@
+@page
+@using MessWala.Web.Pages.Users
+@model RestaurantUsersListModel
+@{
+    ViewData["Title"] = "Users List";
+}
+
+<div class="ui grid">
+    <div class="one wide column"></div>
+    <div class="fourteen wide column">
+        <table class="ui striped teal table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>User Name</th>
+                    <th>User Type</th>
+                    <th>User Role</th>
+                    <th>Phone No</th>
+                    <th>E-mail</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in @Model.Users.lstUsers)
+                {
+                    <tr>
+                        <td>@item.FirstName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.UserType</td>
+                        <td>@item.Role</td>
+                        <td>@item.MobileNo</td>
+                        <td>@item.Email</td>
+                        <td>@item.Address1</td>
+                        <td>
+                            <a asp-page="/Users/RestaurantUsers" asp-route-id="@item.UserId" data-tooltip="Edit User" data-inverted="">
+                                <i class="edit icon"></i>
+                            </a>
+                            <a data-tooltip="Delete User" data-inverted="" id="@item.UserId" onclick="showDeleteModal(@item.UserId)"> <i class=" trash icon"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="8">
+                        <partial name="_PaginationPartial" for="@Model.Users.PaginationModel" />
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="one wide column"></div>
+</div>
+
+<div class="ui mini modal">
+    <div class="header">Delete User</div>
+    <div class="content">
+        <p>Are you sure to delete this User?</p>
+    </div>
+    <div class="actions">
+        <a asp-page-handler="DeleteUSer" id="deleteUserModal" class="ui positive right labeled icon button">Yes<i class="checkmark icon"></i></a>
+        <div class="ui negative button">No</div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        function showDeleteModal(userid) {
+            debugger;
+            $('.mini.modal')
+                .modal('show');
+            var href = $('#deleteUserModal').attr('href');
+            href = href + "&id=" + userid;
+            $('#deleteUserModal').prop('href', href);
+        }
+    </script>
+           
+}
+
+
+@*@section scripts{ 
+
+    function s=
+
+}*@

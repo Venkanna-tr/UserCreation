@@ -1,0 +1,16 @@
+﻿@page
+@model MessWala.Web.Pages.Restaurant.ListModel
+
+
+<form class="form-control">
+    <table class="table table-bordered">
+        @foreach (var item in Model.RestaurantsList.Restaurants)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.RestauratnId</td>
+            </tr>
+        }
+    </table>
+</form>
+

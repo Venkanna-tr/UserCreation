@@ -1,0 +1,97 @@
+@page
+@using MessWala.Web.Pages.Restaurant
+@model PlansModel
+@{
+     ViewData["Title"] = "Plans"; 
+}
+@Html.HiddenFor(m=>m.PlanModel.PaginationModel.PageSize)
+<div class="ui grid">
+ <div class="six column row">
+     <div class="left floated column">
+         <div class="ui large header">Plans</div>
+     </div>
+     <div class="right floated column">
+         <a asp-page="/restaurant/upsertplan" data-tooltip="Add Plan" data-position="bottom left" data-inverted="" class="ui primary button" >Add Plan</a>
+     </div>
+ </div>
+</div>
+
+<div class="ui divider"></div>
+<div class="ui grid">
+   <div class="one wide column"></div>
+     <div class="fourteen wide column">
+      <table class="ui fixed single line celled table">
+         <thead>
+             <th>Plan</th>
+             <th>Restaurant</th>
+             <th>Category</th>
+             <th>Plan Type</th>
+             <th>Cost</th>
+             <th>Description</th>
+             <th>Actions</th>
+         </thead>
+         <tbody>
+             @foreach (var item in @Model.PlanModel.LstPlans)
+             {
+                 <tr>
+                     <td>@item.Name</td>
+                     <td>@item.Restaurant</td>
+                     <td>@item.Category</td>
+                     <td>@item.PlanMaster</td>
+                     <td>@item.Cost</td>
+                     <td>@item.Description</td>
+                     <td>
+                         <a asp-page="/restaurant/upsertplan" asp-route-id="@item.PlanId" data-tooltip="Edit Plan" data-inverted="">
+                             <i class="edit icon"></i>
+                         </a>
+                          <a data-tooltip="Delete Plan" data-inverted="" id="@item.PlanId" onclick="showDeleteModal(@item.PlanId)">
+                             <i class="trash icon"></i>
+                         </a>
+                     </td>
+                 </tr>
+             }
+         </tbody>
+         <tfoot>
+              <tr>
+                <th colspan="7">
+                     <partial name="_PaginationPartial" for="@Model.PlanModel.PaginationModel" />
+                </th>
+             </tr>
+        </tfoot>
+      </table>
+      </div>
+      <div class="one wide column"></div>
+</div>
+
+<div class="ui mini modal">
+  <div class="header">Delete Plan</div>
+  <div class="content">
+    <p>Are you sure to delete this Plan?</p>
+  </div>
+  <div class="actions">
+    <a asp-page-handler="DeletePlan" id="deletePlanModal" class="ui positive right labeled icon button">Yes<i class="checkmark icon"></i></a>
+    <div class="ui negative button">No</div>
+  </div>
+</div>
+
+@section Scripts{
+   <script type="text/javascript">
+     $(document).ready(function(){
+         debugger
+         var ddrValue=$("#PlanModel_PaginationModel_PageSize").val();
+         $("#ddrPageSize").val(ddrValue);
+          $("#ddrPageSize").change(function(event){
+               window.location.href="/restaurant/plans?pageSize="+event.target.value;
+           })
+     })
+
+     function showDeleteModal(planId){
+           $('.mini.modal')
+            .modal('show');
+            var href=$('#deletePlanModal').attr('href');
+            href=href+"&id="+planId;
+            $('#deletePlanModal').prop('href',href);
+        }
+
+   </script>
+}

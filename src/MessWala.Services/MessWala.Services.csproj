@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MessWala.Data.Models\MessWala.Data.Models.csproj" />
+    <ProjectReference Include="..\MessWala.Data\MessWala.Data.csproj" />
+  </ItemGroup>
+
+</Project>

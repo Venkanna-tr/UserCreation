@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <!--<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>-->
+    <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <!--<UseRazorBuildServer>true</UseRazorBuildServer>-->
+    <TieredCompilation>true</TieredCompilation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="2.2.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.System" Version="2.2.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.4" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="2.2.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.1.1" />
+    <PackageReference Include="MediatR" Version="6.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="2.2.0" />
+    <!--<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MessWala.Application\MessWala.Application.csproj" />
+    <ProjectReference Include="..\MessWala.Data.Models\MessWala.Data.Models.csproj" />
+    <ProjectReference Include="..\MessWala.Infrastructure\MessWala.Infrastructure.csproj" />
+    <ProjectReference Include="..\MessWala.Web.AdminUILib\MessWala.Web.AdminUILib.csproj" />
+    <ProjectReference Include="..\Modules\Abstractions\Abstractions.csproj" />
+    <ProjectReference Include="..\MessWala.Services\MessWala.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="McMaster.NETCore.Plugins">
+      <HintPath>..\..\lib\McMaster.NETCore.Plugins.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="plugins\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,83 @@
+﻿@page
+@model IndexModel
+@{
+ViewData["Title"] = "Home page";
+Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <environment include="Development">
+        <!-- <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" /> -->
+        <link rel="stylesheet" href="~/semantic/out/semantic.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" />
+
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/semantic/out/semantic.min.css" />
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-fallback-test-class="sr-only"
+            asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+
+<body>
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui teal image header">
+                <!-- <img src="" class="image"> -->
+                User Login
+            </h2>
+            <form class="ui large form" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input asp-for="LoginDto.UserName" class="form-control" placeholder="User Name" id="userid" />
+                            <span asp-validation-for="LoginDto.UserName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input asp-for="LoginDto.Password" class="form-control" placeholder="Password" id="pwd" />
+                            <span asp-validation-for="LoginDto.Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Login" class="ui fluid large teal submit button" id="login" />
+                    </div>
+                </div>
+                <div class="ui error message">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js" crossorigin="anonymous"></script>
+        <!-- <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script> -->
+        <script src="~/semantic/out/semantic.js"></script>
+        <script src="~/js/site.js" asp-append-version="true" crossorigin="anonymous"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery" crossorigin="anonymous" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+            </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal" crossorigin="anonymous"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/semantic/out/semantic.min.js">
+        </script>
+    </environment>
+</body>
+
+</html>

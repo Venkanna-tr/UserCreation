@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MessWala.Web</title>
+
+    <environment include="Development">
+        <!-- <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" /> -->
+        <link rel="stylesheet" href="~/semantic/out/semantic.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+
+        <link rel="stylesheet" href="~/css/multiple-select.css" />
+        <style type="text/css">
+            body {
+                display: relative;
+            }
+
+            #sidebar {
+                position: fixed;
+                top: 45.8px;
+                left: 0;
+                bottom: 0;
+                width: 18%;
+                background-color: #2F4F4F;
+                padding: 0px;
+            }
+
+            #sidebar .ui.menu {
+                margin: 2em 0 0;
+                font-size: 16px;
+            }
+
+            #sidebar .ui.menu>a.item {
+                color: white;
+                border-radius: 0 !important;
+            }
+
+            #sidebar .ui.menu>a.item.active {
+                background-color: #337ab7;
+                color: white;
+                border: none !important;
+            }
+
+            #sidebar .ui.menu>a.item:hover {
+                background-color: #4f93ce;
+                color: white;
+            }
+
+            #content {
+                margin-left: 19%;
+                width: 81%;
+                margin-top: 3em;
+                padding-left: 3em;
+                float: left;
+            }
+
+            #content>.ui.grid {
+                padding-right: 4em;
+                padding-bottom: 3em;
+            }
+
+            #content h1 {
+                font-size: 36px;
+            }
+
+            #content .ui.divider:not(.hidden) {
+                margin: 0;
+            }
+
+            #content table.ui.table {
+                border: none;
+            }
+
+            #content table.ui.table thead th {
+                border-bottom: 2px solid #eee !important;
+            }
+        </style>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/semantic/out/semantic.min.css" />
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-fallback-test-class="sr-only"
+            asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+
+    </environment>
+</head>
+
+<body>
+    <!-- <partial name="_CookieConsentPartial" /> -->
+    
+    <mini-profiler /> 
+
+    <partial name="_Header">
+        <div class="pusher">
+            @RenderBody()
+           
+                
+                <!-- </div> -->
+        </div>
+    <partial name="_Footer">
+        <!-- <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <partial name="_Footer">
+        </div> -->
+
+        <environment include="Development">
+            <script src="~/lib/jquery/dist/jquery.js" crossorigin="anonymous"></script>
+            <!-- <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script> -->
+            <script src="~/semantic/out/semantic.js"></script>
+            <script src="~/js/site.js" asp-append-version="true" crossorigin="anonymous"></script>
+            <!-- <script src="~/js/multiple-select.js"></script> -->
+            <script src="~/js/jquery.multiple.select.js"></script>
+            <script src="~/js/home.js"></script>
+            <script src="~/js/theme.js"></script>
+            <script>
+                $(function () {
+                    $('.ui.accordion')
+                        .accordion();
+                });</script>
+        </environment>
+        <environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery" crossorigin="anonymous" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+                </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal" crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+                </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+            <script src="~/semantic/out/semantic.min.js"></script>
+            <script src="~/js/home.js"></script>
+            <script src="~/js/theme.js"></script>
+
+            <script>
+                $(function () {
+                    $('.ui.accordion')
+                        .accordion();
+                });</script>
+        </environment>
+
+        @RenderSection("Scripts", required: false)
+</body>
+
+</html>

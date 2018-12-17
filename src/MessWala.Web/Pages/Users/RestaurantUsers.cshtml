@@ -1,0 +1,109 @@
+@page
+@using MessWala.Web.Pages.Users
+@model RestaurantUsersModel
+@{
+ViewData["Title"] = "Create User";
+}
+
+<div class="ui small header">Add User</div>
+<div class="ui divider"></div>
+
+<div class="one wide column"></div>
+<div class="ui container">
+    <form id="addUserForm" method="Post" class="ui form">
+        <input type="hidden" asp-for="UserDto.UserId" />
+        <div class="required fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.FirstName"></label>
+            </div>
+            <div class=" five wide field">
+                <input type="text" asp-for="@Model.UserDto.FirstName" />
+                <span asp-validation-for="UserDto.FirstName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="required fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.LastName"></label>
+            </div>
+            <div class=" five wide field">
+                <input type="text" asp-for="@Model.UserDto.LastName" />
+            </div>
+        </div>
+        <div class="required fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.UserName"></label>
+            </div>
+            <div class="five wide field">
+                <input type="text" asp-for="@Model.UserDto.UserName" />
+            </div>
+        </div>
+        <div class="required fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.MobileNo"></label>
+            </div>
+            <div class="five wide field">
+                <input type="text" asp-for="@Model.UserDto.MobileNo" />
+            </div>
+        </div>
+        <div class="required fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.Email"></label>
+            </div>
+            <div class="five wide field">
+                <input type="text" asp-for="@Model.UserDto.Email" />
+            </div>
+        </div>
+        <div class="required fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.RoleId"></label>
+            </div>
+            <div class="five wide field">
+                <select asp-for="@Model.UserDto.RoleId" asp-items="@(new SelectList(Model.UserDto.lstRoles,"Id","Name"))">
+                    <option>Please Select</option>
+                </select>
+            </div>
+        </div>
+        <div class="required fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.UserTypeId"></label>
+            </div>
+            <div class="five wide field">
+                <select asp-for="@Model.UserDto.UserTypeId" asp-items="@(new SelectList(Model.UserDto.lstUserTypes,"Id","Name"))">
+                    <option>Please Select</option>
+                </select>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.Address1"></label>
+            </div>
+            <div class="seven wide field">
+                <textarea rows="3" cols="50" type="text" asp-for="@Model.UserDto.Address1"></textarea>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.Address2"></label>
+            </div>
+            <div class="seven wide field">
+                <textarea rows="3" cols="50" type="text" asp-for="@Model.UserDto.Address2"></textarea>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="two wide field">
+                <label asp-for="@Model.UserDto.Address3"></label>
+            </div>
+            <div class="seven wide field">
+                <textarea rows="3" cols="50" type="text" asp-for="@Model.UserDto.Address3"></textarea>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="two wide field">
+                <input type="submit" class="ui primary button" />
+            </div>
+            <div class="three wide field">
+                <a asp-page="/restaurant/plans" class="ui button">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>

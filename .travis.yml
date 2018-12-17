@@ -1,0 +1,24 @@
+language: csharp
+solution: MessWala.sln
+sudo: required
+dist: trusty
+dotnet: 2.2.100
+mono: none
+os:
+  - bionic
+
+branches:  
+  only:
+    - master
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
+before_script:
+  - dotnet restore
+
+script:
+  - dotnet build ./MessWala.sln
+  # - ./run-tests.sh

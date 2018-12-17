@@ -1,0 +1,12 @@
+2018-12-04 19:37:28.2918 Info Message Template Auto Format enabled
+2018-12-04 19:37:28.3068 Info Loading assembly: NLog.Web.AspNetCore
+2018-12-04 19:37:28.4578 Info Adding target File Target[file]
+2018-12-04 19:37:28.4718 Info Configured from an XML element in D:\GitHub\FoodExDemo\src\MessWala.Api\bin\Debug\netcoreapp2.1\nlog.config...
+2018-12-04 19:37:28.5008 Info Found 13 configuration items
+2018-12-05 17:19:51.7634 Info Message Template Auto Format enabled
+2018-12-05 17:19:51.7754 Info Loading assembly: NLog.Web.AspNetCore
+2018-12-05 17:19:52.0644 Info Adding target File Target[file]
+2018-12-05 17:19:52.0774 Info Configured from an XML element in d:\GitHub\FoodExDemo\src\MessWala.Api\bin\Debug\netcoreapp2.1\nlog.config...
+2018-12-05 17:19:52.1044 Info Found 13 configuration items
+2018-12-05 17:21:10.8493 Info Shutting down logging...
+2018-12-05 17:21:10.8703 Info Logger has been shut down.

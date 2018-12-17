@@ -1,0 +1,70 @@
+﻿@using MessWala.Data.Models.ViewModels
+@model PaginationVM
+  @{
+      Model.ActivePages=new List<int>();
+     for (int i = 1; i <= Model.TotalPages; i++)
+     {
+         bool isVisible = false;
+         if (Model.TotalPages <= 10)
+         {
+             isVisible = true;
+         }
+         else if ((Model.PageNumber - 5) <= i && (Model.PageNumber + 5) >= i)
+         {
+             isVisible = true;
+         }
+         else if (Model.PageNumber <= 5 && i <= 10)
+         {
+             isVisible = true;
+         }
+         if (isVisible)
+         {
+             Model.ActivePages.Add(i);
+         }
+     }
+  }
+   
+    <div class="ui grid">
+      <div class="three wide column">
+          <div class="ui field">
+             <select id="ddrPageSize">
+                 <option value="5">5</option>
+                 <option value="10">10</option>
+                 <option value="20">20</option>
+                 <option value="30">30</option>
+             </select>
+          </div>
+      </div>
+      <div class="eight wide column" style="text-align:center">
+          <div class="ui floated pagination menu">
+             @if (Model.PageNumber> 1)
+             {
+                 <a class="icon item" asp-page="@Model.Url" asp-route-id="1">
+                   <i class="angle double left icon"></i> 
+                 </a>
+                 <a class="icon item" asp-page="@Model.Url" asp-route-id="@(Model.PageNumber - 1)">
+                   <i class="angle left icon"></i>
+                 </a>
+             }
+            
+             @foreach (var item in @Model.ActivePages)
+             {
+                 <a class="item" asp-page="@Model.Url" asp-route-id="@item">@item</a>
+             }
+             
+             @if (Model.PageNumber< Model.TotalPages)
+             {
+                 <a class="icon item" asp-page="@Model.Url" asp-route-id="@(Model.PageNumber + 1)">
+                   <i class="angle right icon"></i>
+                 </a>
+                 <a class="icon item" asp-page="@Model.Url" asp-route-id="@Model.TotalPages">
+                   <i class="angle double right icon"></i> 
+                 </a>
+             }
+           </div>
+       </div>
+      <div class="five wide column" style="text-align:right">
+         View @((Model.PageNumber-1)* Model.PageSize+1) - @((Model.PageNumber * Model.PageSize)< Model.TotalRecords ?(Model.PageNumber * Model.PageSize) : Model.TotalRecords) of @Model.TotalRecords Records
+      </div>
+     </div>
+   
